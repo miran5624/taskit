@@ -1,0 +1,61 @@
+{
+  "commands": {
+    "setup": {
+      "description": "Complete database setup from scratch",
+      "command": "npm run db:generate && npm run db:push && npm run db:seed",
+      "when_to_use": "First time setup or after major schema changes"
+    },
+    "studio": {
+      "description": "Open Prisma Studio visual database browser",
+      "command": "npm run db:studio",
+      "when_to_use": "To view and manage data visually",
+      "url": "http://localhost:5555"
+    },
+    "generate": {
+      "description": "Generate Prisma client after schema changes",
+      "command": "npm run db:generate",
+      "when_to_use": "After modifying prisma/schema.prisma"
+    },
+    "push": {
+      "description": "Push schema changes to database (development)",
+      "command": "npm run db:push",
+      "when_to_use": "Development - quick schema updates"
+    },
+    "migrate": {
+      "description": "Create and run migrations (production)",
+      "command": "npm run db:migrate",
+      "when_to_use": "Production - versioned schema changes"
+    },
+    "seed": {
+      "description": "Add demo data to database",
+      "command": "npm run db:seed",
+      "when_to_use": "To populate database with test data"
+    },
+    "reset": {
+      "description": "Reset database and run all migrations",
+      "command": "npm run db:reset",
+      "when_to_use": "⚠️ CAREFUL: Deletes all data and recreates database"
+    }
+  },
+  "quick_start": [
+    "1. Ensure PostgreSQL is running",
+    "2. Update DATABASE_URL in .env file",
+    "3. Run: npm run db:generate",
+    "4. Run: npm run db:push",
+    "5. Run: npm run db:seed",
+    "6. Run: npm run db:studio",
+    "7. Open: http://localhost:5555"
+  ],
+  "demo_credentials": {
+    "user1": {
+      "email": "john@example.com",
+      "password": "password123",
+      "team": "Development Team"
+    },
+    "user2": {
+      "email": "jane@example.com",
+      "password": "password123",
+      "team": "Development Team"
+    }
+  }
+}

@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  teamName  String   @default("My Team") @map("team_name")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  assignedTasks TaskAssignment[]
+  createdTasks  Task[] @relation("TaskCreator")
+  chatUsers     ChatUser[]
+  messages      Message[]
+  ownedTeams   Team[]    @relation("TeamOwner")
+  teamMemberships TeamMember[]
+
+  @@map("users")
+}
+
+model Task {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  dueDate     DateTime   @map("due_date")
+  priority    Priority
+  status      TaskStatus @default(TO_DO)
+  createdBy   Int        @map("created_by")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  assignedUsers TaskAssignment[]
+  creator  User  @relation("TaskCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  chat     Chat?
+
+  @@map("tasks")
+}
+
+model TaskAssignment {
+  id      Int   @id @default(autoincrement())
+  taskId  Int
+  userId  Int
+  task    Task  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Priority {
+  Low
+  Medium
+  High
+}
+
+enum TaskStatus {
+  TO_DO      @map("To Do")
+  IN_PROGRESS @map("In Progress")
+  DONE       @map("Done")
+}
+
+model Chat {
+  id        Int      @id @default(autoincrement())
+  taskId    Int      @unique
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  users     ChatUser[]
+  messages  Message[]
+  createdAt DateTime @default(now())
+}
+
+model ChatUser {
+  id     Int  @id @default(autoincrement())
+  chatId Int
+  userId Int
+  chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReadAt DateTime?
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  chatId    Int
+  senderId  Int
+  content   String
+  createdAt DateTime @default(now())
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Team {
+  id        Int      @id @default(autoincrement())
+  name      String
+  ownerId   Int
+  owner     User     @relation("TeamOwner", fields: [ownerId], references: [id])
+  members   TeamMember[]
+  createdAt DateTime @default(now())
+}
+
+model TeamMember {
+  id      Int  @id @default(autoincrement())
+  teamId  Int
+  userId  Int
+  team    Team @relation(fields: [teamId], references: [id])
+  user    User @relation(fields: [userId], references: [id])
+}
