@@ -145,4 +145,22 @@ router.get("/teams/:id/members", async (req, res) => {
   }
 });
 
+// Remove a member from a team by userId
+router.post("/teams/:id/remove-member", async (req, res) => {
+  try {
+    const teamId = Number(req.params.id);
+    const { userId } = req.body;
+    if (!userId) return res.status(400).json({ message: "User ID required" });
+    // Only allow owner to remove
+    const team = await prisma.team.findUnique({ where: { id: teamId } });
+    if (!team || team.ownerId !== req.user.id) return res.status(403).json({ message: "Not allowed" });
+    // Remove member
+    await prisma.teamMember.deleteMany({ where: { teamId, userId } });
+    res.json({ message: "Member removed" });
+  } catch (error) {
+    console.error("Remove member error:", error);
+    res.status(500).json({ message: "Server error removing member" });
+  }
+});
+
 module.exports = router
