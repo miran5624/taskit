@@ -614,11 +614,10 @@ export default function DashboardPage() {
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-gray-800 border-gray-700">
-                          <DropdownMenuItem className="text-white hover:bg-gray-700" onClick={() => handleEditTask(task)}>
+                        <DropdownMenuContent className="bg-[#232323] border border-[#232323] shadow-xl">
+                          <DropdownMenuItem className="bg-[#232323] text-white rounded-lg px-6 py-3 font-medium hover:bg-[#18181b] transition-colors border-none focus:outline-none focus:ring-0 w-full" onClick={() => handleEditTask(task)}>
                             Edit Task
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-white hover:bg-gray-700">Mark Complete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
@@ -698,11 +697,11 @@ export default function DashboardPage() {
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-gray-800 border-gray-700">
-                          <DropdownMenuItem className="text-white hover:bg-gray-700" onClick={() => handleEditTask(task)}>
+                        <DropdownMenuContent className="bg-[#232323] border border-[#232323] shadow-xl">
+                          <DropdownMenuItem className="bg-[#232323] text-white rounded-lg px-6 py-3 font-medium hover:bg-[#18181b] transition-colors border-none focus:outline-none focus:ring-0 w-full" onClick={() => handleEditTask(task)}>
                             Edit Task
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-white hover:bg-gray-700 text-red-400" onClick={() => handleDeleteTask(task.id)}>
+                          <DropdownMenuItem className="bg-[#232323] text-red-400 rounded-lg px-6 py-3 font-medium hover:bg-[#18181b] transition-colors border-none focus:outline-none focus:ring-0 w-full" onClick={() => handleDeleteTask(task.id)}>
                             Delete Task
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -807,33 +806,33 @@ export default function DashboardPage() {
 
       {/* Edit Task Modal */}
       <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md">
-          <DialogHeader>
+        <DialogContent className="bg-[#18181b] border border-[#232323] text-white max-w-md shadow-2xl rounded-2xl p-0 overflow-hidden">
+          <DialogHeader className="pt-8 px-8">
             <DialogTitle>Edit Task</DialogTitle>
           </DialogHeader>
           {editTaskData && (
-            <form onSubmit={handleEditSubmit} className="space-y-4">
+            <form onSubmit={handleEditSubmit} className="space-y-4 px-8 pb-8 pt-2">
               <div>
                 <Label htmlFor="edit-title" className="text-gray-300">Title *</Label>
-                <Input id="edit-title" value={editTaskData.title} onChange={e => setEditTaskData({ ...editTaskData, title: e.target.value })} className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 focus:border-[#3ecf8e]" />
+                <Input id="edit-title" value={editTaskData.title} onChange={e => setEditTaskData({ ...editTaskData, title: e.target.value })} className="bg-[#232323] border-[#232323] text-white placeholder:text-gray-400 focus:border-[#3ecf8e] rounded-lg px-4 py-2" />
                 {editErrors.title && <p className="text-red-400 text-sm mt-1">{editErrors.title}</p>}
               </div>
               <div>
                 <Label htmlFor="edit-description" className="text-gray-300">Description</Label>
-                <Textarea id="edit-description" value={editTaskData.description} onChange={e => setEditTaskData({ ...editTaskData, description: e.target.value })} className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 focus:border-[#3ecf8e]" rows={3} />
+                <Textarea id="edit-description" value={editTaskData.description} onChange={e => setEditTaskData({ ...editTaskData, description: e.target.value })} className="bg-[#232323] border-[#232323] text-white placeholder:text-gray-400 focus:border-[#3ecf8e] rounded-lg px-4 py-2" rows={3} />
               </div>
               <div>
                 <Label htmlFor="edit-dueDate" className="text-gray-300">Due Date *</Label>
-                <Input id="edit-dueDate" type="date" value={editTaskData.dueDate} onChange={e => setEditTaskData({ ...editTaskData, dueDate: e.target.value })} className="bg-gray-700 border-gray-600 text-white focus:border-[#3ecf8e]" />
+                <Input id="edit-dueDate" type="date" value={editTaskData.dueDate} onChange={e => setEditTaskData({ ...editTaskData, dueDate: e.target.value })} className="bg-[#232323] border-[#232323] text-white focus:border-[#3ecf8e] rounded-lg px-4 py-2" />
                 {editErrors.dueDate && <p className="text-red-400 text-sm mt-1">{editErrors.dueDate}</p>}
               </div>
               <div>
                 <Label htmlFor="edit-priority" className="text-gray-300">Priority *</Label>
                 <Select value={editTaskData.priority} onValueChange={value => setEditTaskData({ ...editTaskData, priority: value })}>
-                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white focus:border-[#3ecf8e]">
+                  <SelectTrigger className="bg-[#232323] border-[#232323] text-white focus:border-[#3ecf8e] rounded-lg px-4 py-2">
                     <SelectValue placeholder="Select priority" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-700 border-gray-600">
+                  <SelectContent className="bg-[#232323] border-[#232323] rounded-lg">
                     <SelectItem value="Low" className="text-white hover:bg-gray-600">Low</SelectItem>
                     <SelectItem value="Medium" className="text-white hover:bg-gray-600">Medium</SelectItem>
                     <SelectItem value="High" className="text-white hover:bg-gray-600">High</SelectItem>
@@ -843,7 +842,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <Label htmlFor="edit-assignees" className="text-gray-300">Assignees *</Label>
-                <div className="flex flex-col gap-2 mt-2">
+                <div className="flex flex-col gap-3 mt-2">
                   {teamMembers.map(member => (
                     <label key={member.id} className="flex items-center gap-2">
                       <Checkbox
@@ -857,6 +856,7 @@ export default function DashboardPage() {
                               : current.filter((id: number) => id !== member.id),
                           })
                         }}
+                        className="border-[#3ecf8e] focus:ring-[#3ecf8e] bg-[#232323]"
                       />
                       <span>{member.email}{user?.id === member.id ? " (me)" : ""}</span>
                     </label>
@@ -865,9 +865,9 @@ export default function DashboardPage() {
                 {editErrors.assigneeIds && <p className="text-red-400 text-sm mt-1">{editErrors.assigneeIds}</p>}
               </div>
               {editErrors.general && <p className="text-red-400 text-sm mt-1">{editErrors.general}</p>}
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setEditModalOpen(false)} className="border-gray-600 text-white hover:bg-gray-700 bg-transparent">Cancel</Button>
-                <Button type="submit" disabled={editLoading} className="bg-[#3ecf8e] hover:bg-[#3ecf8e]/90 text-[#171717]">{editLoading ? "Saving..." : "Save Changes"}</Button>
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button variant="outline" onClick={() => setEditModalOpen(false)} className="border-[#232323] text-white hover:bg-[#232323] bg-transparent rounded-lg px-6 py-2">Cancel</Button>
+                <Button type="submit" disabled={editLoading} className="bg-[#3ecf8e] hover:bg-[#3ecf8e]/90 text-[#171717] rounded-lg px-6 py-2 font-bold shadow">{editLoading ? "Saving..." : "Save Changes"}</Button>
               </div>
             </form>
           )}
