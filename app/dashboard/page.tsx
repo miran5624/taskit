@@ -106,12 +106,13 @@ export default function DashboardPage() {
       setChatLoading(true)
       try {
         const token = localStorage.getItem("authToken")
-        const chatRes = await fetch(`/api/chat/task/${openChatTaskId}`, {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL
+        const chatRes = await fetch(`${apiBase}/chat/task/${openChatTaskId}`, {
           headers: token ? { "Authorization": `Bearer ${token}` } : undefined,
         })
         const chatData = await chatRes.json()
         setChatId(chatData.chat.id)
-        const msgRes = await fetch(`/api/chat/${chatData.chat.id}/messages`, {
+        const msgRes = await fetch(`${apiBase}/chat/${chatData.chat.id}/messages`, {
           headers: token ? { "Authorization": `Bearer ${token}` } : undefined,
         })
         const msgData = await msgRes.json()
@@ -200,7 +201,7 @@ export default function DashboardPage() {
     setAssignLoading(true)
     try {
       const token = localStorage.getItem("authToken")
-      const res = await fetch(`/api/tasks/${assignTaskId}/assign`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${assignTaskId}/assign`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -284,7 +285,7 @@ export default function DashboardPage() {
     if (!chatId || !chatInput.trim()) return
     try {
       const token = localStorage.getItem("authToken")
-      const res = await fetch(`/api/chat/${chatId}/messages`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/${chatId}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -306,7 +307,7 @@ export default function DashboardPage() {
     setChatListLoading(true)
     try {
       const token = localStorage.getItem("authToken")
-      const res = await fetch("/api/users/me/chats", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me/chats`, {
         headers: token ? { "Authorization": `Bearer ${token}` } : undefined,
       })
       if (res.ok) {
@@ -328,7 +329,7 @@ export default function DashboardPage() {
 
   const fetchTeamMembersForTeam = async (teamId: number) => {
     const token = localStorage.getItem("authToken")
-    const res = await fetch(`/api/users/teams/${teamId}/members`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/teams/${teamId}/members`, {
       headers: token ? { "Authorization": `Bearer ${token}` } : undefined,
     })
     if (res.ok) {
@@ -349,7 +350,7 @@ export default function DashboardPage() {
       return
     }
     const token = localStorage.getItem("authToken")
-    const res = await fetch("/api/users/teams", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/teams`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1040,7 +1041,7 @@ export default function DashboardPage() {
                             setManageTeamError("")
                             try {
                               const token = localStorage.getItem("authToken")
-                              const res = await fetch(`/api/users/teams/${teamId}/remove-member`, {
+                              const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/teams/${teamId}/remove-member`, {
                                 method: "POST",
                                 headers: {
                                   "Content-Type": "application/json",
@@ -1074,7 +1075,7 @@ export default function DashboardPage() {
                       if (!newMemberEmail.trim()) return
                       try {
                         const token = localStorage.getItem("authToken")
-                        const res = await fetch(`/api/users/teams/${teamId}/add-member`, {
+                        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/teams/${teamId}/add-member`, {
                           method: "POST",
                           headers: {
                             "Content-Type": "application/json",
